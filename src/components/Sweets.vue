@@ -14,11 +14,11 @@
       @sortColumnChanged="sortData"
       @sortOrderChanged="sortOrderChanged($event)"
     ></sortSelector>
-    <table class="center">
+    <table class="data-table">
       <tr>
-        <th class="text-left" style="width:50px;">Id</th>
-        <th class="text-left" style="width:100px;">Type</th>
-        <th class="text-left" style="width:150px;">Name</th>
+        <th class="text-left" style="min-width:50px;">Id</th>
+        <th class="text-left" style="min-width:100px;">Type</th>
+        <th class="text-left" style="min-width:150px;">Name</th>
         <th class="text-left">Topping</th>
       </tr>
       <tr
@@ -98,9 +98,8 @@ export default {
 .text-left {
   text-align: left;
 }
-.center {
-  margin-left: auto;
-  margin-right: auto;
+.data-table {
+  width: 100%;
 }
 table, th, td {
   border: 1px solid black;
