@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Sweets from './components/Sweets.vue'
+import Sweets from '@/components/Sweets.vue'
 
 export default {
   name: 'App',
