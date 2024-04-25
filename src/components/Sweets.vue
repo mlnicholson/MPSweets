@@ -4,6 +4,7 @@
     <filterSelector
       label="Search Sweets"
       v-model="sweetListFilter"
+      tooltip="Filter the data to show sweets that contain your search string. Case sensitive."
       @filterChanged="filterSweetList"
     >
     </filterSelector>
