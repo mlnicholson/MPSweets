@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/donut.png" style="width: 160px">
+    <img alt="Sweets logo" src="./assets/donut.png" style="width: 160px">
     <Sweets title="Sweets"/>
   </div>
 </template>

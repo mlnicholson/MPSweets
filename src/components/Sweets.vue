@@ -1,7 +1,12 @@
 <template>
   <div>
     <h1>{{ title }}</h1>
-    
+    <filterSelector
+      label="Search Sweets"
+      v-model="sweetListFilter"
+      @filterChanged="filterSweetList"
+    >
+    </filterSelector>
     <sortSelector
       label="Sort By"
       :columnList="sort.ColumnList"
@@ -29,18 +34,21 @@
 </template>
 
 <script>
-import sweetList from "@/data/sweets.json";
+import sweetListData from "@/data/sweets.json";
 import sortSelector from '@/components/SortSelector.vue'
+import filterSelector from '@/components/FilterSelector.vue'
 export default {
   name: 'SweetsComponent',
   components: {
-    sortSelector
+    sortSelector,
+    filterSelector
   },
   props: {
     title: String
   },
   data: () => ({
     sweetList: [],
+    sweetListFilter: null,
     sort: {
       ColumnList: [
         {"Value": "id", "Text": "Id"},
@@ -59,6 +67,18 @@ export default {
     sortColumnChanged() {
       this.sortData();
     },
+    filterSweetList() {
+      // Set the local sweetList variable to reflect a filtered version of the sweetList data set.
+      // This is important to ensure that clearing the filter will restore data previously filtered
+      // including newly added records 
+      this.sweetList = sweetListData.filter((i) => 
+        i.id.includes(this.sweetListFilter) || 
+        i.type.includes(this.sweetListFilter) ||
+        i.name.includes(this.sweetListFilter) ||
+        i.topping.includes(this.sweetListFilter)
+      );
+      this.sortData();
+    },
     sortData() {
       //Sort the data in sweetlist based on the currently selected sort column and sort direction
       const direction = this.sort.Ascending ? 1 : -1;
@@ -66,8 +86,10 @@ export default {
     }
   },
   mounted() {
-    // Import the sweetList data from file
-    this.sweetList = sweetList;
+    // Import the sweetList data from file and copy to a local variable.
+    // NB: It is important to copy the original data to ensure changes made
+    // during the filtering process above do not affect the base data set
+    this.sweetList = [...sweetListData];
   }
 }
 </script>
