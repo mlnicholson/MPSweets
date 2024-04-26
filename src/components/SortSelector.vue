@@ -7,7 +7,12 @@
         :key="index" 
         :value=item.Value>{{item.Text}}</option>
     </select>
-    <button class="toggle sort" @click="sortOrderChanged">{{ ascending ? "Ascending" : "Descending"}}</button>
+    <div class="radioSet">
+      <input type="radio" id="asc" name="sortOrder" @click="sortOrderChanged(true)" :checked="ascendingOrder">
+      <label for="asc">Ascending</label>
+      <input type="radio" id="desc" name="sortOrder" @click="sortOrderChanged(false)" :checked="!ascendingOrder">
+      <label for="desc">Descending</label>
+    </div>
   </div>
 </template>
 
@@ -17,7 +22,11 @@ export default {
   props: {
     label: null,
     value: null,
-    columnList: null
+    columnList: null,
+    ascendingOrder: {
+      type: Boolean,
+      default: true
+    }
   },
   data: () => ({
     ascending: true
@@ -33,9 +42,9 @@ export default {
     }
   },
   methods: {
-    sortOrderChanged() {
-      this.ascending = !this.ascending;
-      this.$emit("sortOrderChanged", this.ascending);
+    sortOrderChanged(ascendingSelected) {
+      this.ascending = ascendingSelected;
+      this.$emit("sortOrderChanged", ascendingSelected);
     },
     sortColumnChanged() {
       this.$emit("sortColumnChanged");
@@ -49,5 +58,11 @@ export default {
   margin-bottom: 5px;
   margin-left: 5px;
   margin-right: 5px;
+}
+.radioSet {
+  display: inline-flex;
+  align-items: baseline;
+  margin-bottom: 5px;
+  margin-left: 5px;
 }
 </style>

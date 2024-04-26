@@ -98,6 +98,7 @@ export default {
 }
 dialog{
   margin-top: -60px;
+  border-radius: 5px;
 }
 .error {
   color: red;

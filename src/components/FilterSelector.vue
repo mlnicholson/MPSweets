@@ -45,7 +45,7 @@ export default {
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  font-weight: bold;
 }
 
 /* Tooltip text */
@@ -56,7 +56,7 @@ export default {
   color: #fff;
   text-align: center;
   padding: 5px 0;
-  border-radius: 6px;
+  border-radius: 5px;
 
   /* Position the tooltip text */
   position: absolute;

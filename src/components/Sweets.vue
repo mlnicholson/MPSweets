@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <div v-if="showSweetForm" :class="{overlay: showSweetForm}"></div> -->
     <h1>{{ title }}</h1>
     <filterSelector
       label="Search Sweets"
@@ -12,6 +13,7 @@
       label="Sort By"
       :columnList="sort.ColumnList"
       v-model="sort.Column"
+      :ascendingOrder="sort.Ascending"
       @sortColumnChanged="sortData"
       @sortOrderChanged="sortOrderChanged($event)"
     ></sortSelector>
@@ -23,7 +25,7 @@
       @add="addSweet($event)"
     >
     </sweetForm>
-    <table class="data-table">
+    <table>
       <tr>
         <th class="text-left" style="min-width:50px;">Id</th>
         <th class="text-left" style="min-width:100px;">Type</th>
@@ -67,7 +69,8 @@ export default {
         {"Value": "topping", "Text": "Topping"}
       ],
       Column: "id",
-      Ascending: true
+      Ascending: false,
+      OverlayIsActive: false
     },
     showSweetForm: false,
     sweetItem: {
@@ -79,6 +82,9 @@ export default {
   }),
   methods: {
     sortOrderChanged(isAscendingOrder) {
+      if (isAscendingOrder === this.sort.Ascending)
+        return;
+
       this.sort.Ascending = isAscendingOrder;
       this.sortData();
     },
@@ -134,6 +140,7 @@ export default {
     // NB: It is important to copy the original data to ensure changes made
     // during the filtering process above do not affect the base data set
     this.sweetList = [...sweetListData];
+    this.sortData();
   }
 }
 </script>
@@ -143,14 +150,21 @@ export default {
 .text-left {
   text-align: left;
 }
-.data-table {
-  width: 100%;
-}
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
 }
-
+table {
+  width: 100%;
+}
+th {
+  background-color: grey;
+  color:white
+}
+td {
+  background-color: #faf9f9;
+  color: black;
+}
 .button.add {
   color: white;
   background: blue;

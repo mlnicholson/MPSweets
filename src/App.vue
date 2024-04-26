@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <div style="display: inline-flex; align-items: center;">
-      <img alt="Sweets logo" src="./assets/donut.png" style="width: 160px">
-      <h1>The Sweets App</h1>
-    </div>
-    <Sweets/>    
+    <div class="main">
+      <div style="display: inline-flex; align-items: center;">
+        <img alt="Sweets logo" src="./assets/donut.png" style="width: 160px">
+        <h1>The Sweets App</h1>
+      </div>
+      <Sweets/>  
+    </div>  
   </div>
 </template>
 
@@ -25,6 +27,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  background-color: aliceblue;
+}
+.main {
   margin: 10px;
+  min-height: 97vh;
 }
 </style>
