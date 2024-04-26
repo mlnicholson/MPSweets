@@ -7,7 +7,7 @@
         :key="index" 
         :value=item.Value>{{item.Text}}</option>
     </select>
-    <button class="button toggle sort" @click="sortOrderChanged">{{ ascending ? "Ascending" : "Descending"}}</button>
+    <button class="toggle sort" @click="sortOrderChanged">{{ ascending ? "Ascending" : "Descending"}}</button>
   </div>
 </template>
 

@@ -15,6 +15,14 @@
       @sortColumnChanged="sortData"
       @sortOrderChanged="sortOrderChanged($event)"
     ></sortSelector>
+    <button class="button add" @click="openSweetForm">Add Sweet</button>
+    <sweetForm
+      :showForm="showSweetForm"
+      v-model="sweetItem"
+      @cancel="closeForm"
+      @add="addSweet($event)"
+    >
+    </sweetForm>
     <table class="data-table">
       <tr>
         <th class="text-left" style="min-width:50px;">Id</th>
@@ -38,11 +46,13 @@
 import sweetListData from "@/data/sweets.json";
 import sortSelector from '@/components/SortSelector.vue'
 import filterSelector from '@/components/FilterSelector.vue'
+import sweetForm from '@/components/SweetForm.vue'
 export default {
   name: 'SweetsComponent',
   components: {
     sortSelector,
-    filterSelector
+    filterSelector,
+    sweetForm
   },
   props: {
     title: String
@@ -59,6 +69,13 @@ export default {
       Column: "id",
       Ascending: true
     },
+    showSweetForm: false,
+    sweetItem: {
+      id: null,
+      type: null,
+      name: null,
+      topping: null
+    }
   }),
   methods: {
     sortOrderChanged(isAscendingOrder) {
@@ -69,21 +86,47 @@ export default {
       this.sortData();
     },
     filterSweetList() {
-      // Set the local sweetList variable to reflect a filtered version of the sweetList data set.
-      // This is important to ensure that clearing the filter will restore data previously filtered
-      // including newly added records 
-      this.sweetList = sweetListData.filter((i) => 
-        i.id.includes(this.sweetListFilter) || 
-        i.type.includes(this.sweetListFilter) ||
-        i.name.includes(this.sweetListFilter) ||
-        i.topping.includes(this.sweetListFilter)
-      );
+      // Reset to the base data set if no filter given
+      if (!this.sweetListFilter) {
+        this.sweetList = [...sweetListData];
+      }
+      else {
+        // Set the local sweetList variable to reflect a filtered version of the sweetList data set.
+        // This is important to ensure that clearing the filter will restore data previously filtered
+        // including newly added records 
+        this.sweetList = sweetListData.filter((i) => 
+          (i.id && i.id.includes(this.sweetListFilter)) || 
+          (i.type && i.type.includes(this.sweetListFilter)) ||
+          (i.name && i.name.includes(this.sweetListFilter)) ||
+          (i.topping && i.topping.includes(this.sweetListFilter))
+        );
+      }
       this.sortData();
     },
     sortData() {
       //Sort the data in sweetlist based on the currently selected sort column and sort direction
       const direction = this.sort.Ascending ? 1 : -1;
       this.sweetList.sort((a, b) => (a[this.sort.Column] > b[this.sort.Column] ? direction : direction * -1));
+    },
+    openSweetForm() {
+      this.showSweetForm = true;
+    },
+    closeForm() {
+      this.showSweetForm = false;
+    },
+    addSweet(newSweet) {
+      this.saveData(newSweet)
+        .then(() => {
+          // Once save is complete refresh the data table.
+          // NB: I am assuming if a filter is present then the new record will be subject to
+          // those filter rules so it may or may not appear in the list
+          this.filterSweetList();
+          this.showSweetForm = false;
+        })
+    },
+    async saveData(newSweet) {
+      // Save the new sweet to the base data set of sweets
+      sweetListData.push({...newSweet});
     }
   },
   mounted() {
@@ -96,6 +139,7 @@ export default {
 </script>
 
 <style scoped>
+/* Tables */
 .text-left {
   text-align: left;
 }
@@ -107,7 +151,9 @@ table, th, td {
   border-collapse: collapse;
 }
 
-h3 {
-  margin: 40px 0 0;
+.button.add {
+  color: white;
+  background: blue;
+  margin-bottom: 5px;
 }
 </style>

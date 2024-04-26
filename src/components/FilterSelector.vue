@@ -29,9 +29,6 @@ export default {
   methods: {
     applyFilter() {
       this.$emit("filterChanged");
-    },
-    test() {
-      console.log(this.inputVal);
     }
   }
 }
