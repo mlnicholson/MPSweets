@@ -51,6 +51,7 @@ export default {
   display: inline-block;
   font-weight: bold;
   cursor: pointer;
+  margin: 0;
 }
 
 /* Tooltip text */

@@ -1,23 +1,16 @@
 <template>
   <div>
-    <filterSelector
-      label="Search Sweets"
-      v-model="sweetListFilter"
-      tooltip="Filter the data to show sweets that contain your search string. Case sensitive."
-      @filterChanged="filterSweetList"
-      :disabled="showSweetForm"
-    >
-    </filterSelector>
-    <sortSelector
-      label="Sort By"
-      :columnList="sort.ColumnList"
-      v-model="sort.Column"
-      :ascendingOrder="sort.Ascending"
-      @sortColumnChanged="sortData"
-      @sortOrderChanged="sortOrderChanged($event)"
-      :disabled="showSweetForm"
-    ></sortSelector>
-    <button class="button add" @click="openSweetForm" :disabled="showSweetForm">Add Sweet</button>
+    <div class="action-bar">
+      <filterSelector
+        label="Search Sweets"
+        v-model="sweetListFilter"
+        tooltip="Filter the data to show sweets that contain your search string. Case sensitive."
+        @filterChanged="filterSweetList"
+        :disabled="showSweetForm"
+      >
+      </filterSelector>
+      <button class="button add" @click="openSweetForm" :disabled="showSweetForm">Add Sweet</button>
+    </div>
     <sweetForm
       :showForm="showSweetForm"
       v-model="sweetItem"
@@ -27,10 +20,10 @@
     </sweetForm>
     <table>
       <tr>
-        <th class="text-left" style="min-width:50px;">Id</th>
-        <th class="text-left" style="min-width:100px;">Type</th>
+        <th class="text-left sortable" style="min-width:50px;" @click="sortByColumn('id')" v-html="sortableColumnTitle('Id')"></th>
+        <th class="text-left sortable" style="min-width:100px;" @click="sortByColumn('type')" v-html="sortableColumnTitle('Type')"></th>
         <th class="text-left" style="min-width:150px;">Name</th>
-        <th class="text-left">Topping</th>
+        <th class="text-left sortable" @click="sortByColumn('topping')" v-html="sortableColumnTitle('Topping')"></th>
       </tr>
       <tr
         v-for="(item, index) in sweetList"
@@ -46,13 +39,11 @@
 
 <script>
 import sweetListData from "@/data/sweets.json";
-import sortSelector from '@/components/SortSelector.vue'
 import filterSelector from '@/components/FilterSelector.vue'
 import sweetForm from '@/components/SweetForm.vue'
 export default {
   name: 'SweetsComponent',
   components: {
-    sortSelector,
     filterSelector,
     sweetForm
   },
@@ -80,14 +71,20 @@ export default {
     }
   }),
   methods: {
-    sortOrderChanged(isAscendingOrder) {
-      if (isAscendingOrder === this.sort.Ascending)
-        return;
+    sortableColumnTitle(columnName) {
+      // Build the title for sortable columns in the data table. This includes a tooltip to highlight the column
+      // can be sorted
+      let title = "<span class='tooltip' style='width:100%'>" + columnName;
+      
+      // If this column is currently being sorted then highlight this with an up or down carat character
+      if (this.sort.Column === columnName.toLowerCase())
+        title = title + (this.sort.Ascending === true ? " &#9650;" : " &#9660;");
 
-      this.sort.Ascending = isAscendingOrder;
-      this.sortData();
+      return title + "<span class='tooltiptext'>Toggle sort order</span></span>";
     },
-    sortColumnChanged() {
+    sortByColumn(columnName) {
+      this.sort.Column === columnName ? this.sort.Ascending = !this.sort.Ascending : true;
+      this.sort.Column = columnName;
       this.sortData();
     },
     filterSweetList() {
@@ -161,6 +158,9 @@ th {
   background-color: grey;
   color:white
 }
+th.sortable {
+  cursor: pointer;
+}
 td {
   color: black;
 }
@@ -178,7 +178,10 @@ tr:nth-child(even) {
 .button.add {
   color: white;
   background: blue;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin: 2px 0 0 10px;
+}
+
+.action-bar {
+  display: inline-flex;
 }
 </style>

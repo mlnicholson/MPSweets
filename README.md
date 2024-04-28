@@ -1,5 +1,7 @@
 # sweets
 
+The Sweets App was written in VS Code using Vue2. After opening the project use "npm install" to install all necessary packages. Then use "npm run serve" to serve the application to your localhost.
+
 ## Project setup
 ```
 npm install
