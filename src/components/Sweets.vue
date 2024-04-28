@@ -1,12 +1,11 @@
 <template>
   <div>
-    <!-- <div v-if="showSweetForm" :class="{overlay: showSweetForm}"></div> -->
-    <h1>{{ title }}</h1>
     <filterSelector
       label="Search Sweets"
       v-model="sweetListFilter"
       tooltip="Filter the data to show sweets that contain your search string. Case sensitive."
       @filterChanged="filterSweetList"
+      :disabled="showSweetForm"
     >
     </filterSelector>
     <sortSelector
@@ -16,8 +15,9 @@
       :ascendingOrder="sort.Ascending"
       @sortColumnChanged="sortData"
       @sortOrderChanged="sortOrderChanged($event)"
+      :disabled="showSweetForm"
     ></sortSelector>
-    <button class="button add" @click="openSweetForm">Add Sweet</button>
+    <button class="button add" @click="openSweetForm" :disabled="showSweetForm">Add Sweet</button>
     <sweetForm
       :showForm="showSweetForm"
       v-model="sweetItem"
@@ -57,7 +57,6 @@ export default {
     sweetForm
   },
   props: {
-    title: String
   },
   data: () => ({
     sweetList: [],
@@ -69,7 +68,7 @@ export default {
         {"Value": "topping", "Text": "Topping"}
       ],
       Column: "id",
-      Ascending: false,
+      Ascending: true,
       OverlayIsActive: false
     },
     showSweetForm: false,
@@ -156,18 +155,30 @@ table, th, td {
 }
 table {
   width: 100%;
+  box-shadow: 0 5px 12px rgba(32,32,32,.3)
 }
 th {
   background-color: grey;
   color:white
 }
 td {
-  background-color: #faf9f9;
   color: black;
 }
+th,td {
+  padding: 10px 15px
+}
+tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+tr:nth-child(even) {
+  background-color: #faf9f9;
+}
+
+/* buttons */
 .button.add {
   color: white;
   background: blue;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 </style>

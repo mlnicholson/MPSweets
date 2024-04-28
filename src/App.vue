@@ -22,6 +22,10 @@ export default {
 </script>
 
 <style>
+body {
+  font-size:16px;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -32,5 +36,46 @@ export default {
 .main {
   margin: 10px;
   min-height: 97vh;
+}
+
+/* Global Styles */
+input {
+  padding: 10px 15px;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+  border-width: 1px;
+  font-size:inherit;
+}
+input:disabled {
+  cursor: not-allowed;
+}
+
+select {
+  padding: 10px 15px;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+  border-width: 1px;
+  font-size:inherit;
+}
+select:disabled {
+  cursor: not-allowed;
+}
+
+button {
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  font-size:inherit;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+label {
+  font-size:inherit;
+  font-weight: bold;
 }
 </style>

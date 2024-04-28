@@ -1,10 +1,10 @@
 <template>
   <div>
     <label for="filter">{{label}}: </label>
-    <input class="filter" id="filter" v-model="inputVal" @keyup="applyFilter">
-    <div class="tooltip">&#9432;
+    <input class="filter" id="filter" v-model="inputVal" @keyup="applyFilter" :disabled="disabled">
+    <h2 class="tooltip">&#9432;
       <span class="tooltiptext">{{tooltip}}</span>
-    </div>
+    </h2>
   </div>
 </template>
 
@@ -14,7 +14,11 @@ export default {
   props: {
     label: null,
     value: null,
-    tooltip: null
+    tooltip: null,
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     inputVal: {
@@ -46,6 +50,7 @@ export default {
   position: relative;
   display: inline-block;
   font-weight: bold;
+  cursor: pointer;
 }
 
 /* Tooltip text */
@@ -55,8 +60,9 @@ export default {
   background-color: #555;
   color: #fff;
   text-align: center;
-  padding: 5px 0;
+  padding: 5px;
   border-radius: 5px;
+  font-size: 15px;
 
   /* Position the tooltip text */
   position: absolute;

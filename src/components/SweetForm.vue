@@ -4,19 +4,19 @@
     <form>
       <table>
         <tr>
-          <td>Id:</td>
+          <td><label>Id:</label></td>
           <td><input style="width:50px" v-model="sweetItem.id"></td>
         </tr>
         <tr>
-          <td>Type:</td>
+          <td><label>Type:</label></td>
           <td><input style="width:200px" v-model="sweetItem.type"></td>
         </tr>
         <tr>
-          <td>Name:</td>
+          <td><label>Name:</label></td>
           <td><input style="width:200px" v-model="sweetItem.name"></td>
         </tr>
         <tr>
-          <td>Topping:</td>
+          <td><label>Topping:</label></td>
           <td><input style="width:300px" v-model="sweetItem.topping"></td>
         </tr>
       </table>
@@ -99,6 +99,7 @@ export default {
 dialog{
   margin-top: -60px;
   border-radius: 5px;
+  border-width: 1px;
 }
 .error {
   color: red;
